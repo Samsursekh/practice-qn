@@ -1,6 +1,8 @@
 const container = document.getElementById("container");
 let dataArr = [];
 const cardsPerPage = 12;
+let wishListArr = JSON.parse(localStorage.getItem("Wishlist")) || [];
+
 const pagination = document.getElementById("pagination");
 
 const fetchDataFunction = async () => {
@@ -44,6 +46,10 @@ const displayFunction = (dataArr, currentPage) => {
     const heartIcon = document.createElement("span");
     heartIcon.innerHTML = "&#x2764;";
     heartIcon.style.color = "teal";
+    heartIcon.addEventListener("click", () => {
+        // console.log("Clicked...to WishList")
+        addToWishListFunction(element);
+    })
 
     cards.append(img, title, brand, category, price, heartIcon);
     container.append(cards);
@@ -112,3 +118,21 @@ const sortByPrice = () => {
 //Filter now its fixed i have done some silly mistake thats why it was giving error
 
 fetchDataFunction();
+
+const addToWishListFunction = (wishListItem) => {
+    let wishListVariable;
+    for(let i=0; i<wishListArr.length; i++){
+        wishListVariable = wishListArr[i];
+      }
+      if(wishListVariable === undefined || wishListVariable.id !== wishListItem.id){
+        wishListArr.push(wishListItem);
+       localStorage.setItem("Wishlist", JSON.stringify(wishListArr));
+       alert("Product Added To Wishlist")
+    }
+    else if(wishListVariable.id === wishListItem.id){
+        alert("Product already Exist")
+    }
+}
+
+
+  
